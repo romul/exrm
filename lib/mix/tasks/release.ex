@@ -370,14 +370,13 @@ defmodule Mix.Tasks.Release do
       |> Enum.reject(fn n -> n in [erts, "tmp"] end)
       |> Enum.map(&({'#{&1}', '#{rel_dest_path([name, &1])}'}))
 
-    release_tarball = rel_dest_path([name, "releases", version, "#{name}.tar.gz"])
     :ok = :erl_tar.create(
-      '#{release_tarball}',
+      '#{tarball}',
       file_list ++ extras,
       [:compressed]
     )
     # Continue..
-    %{config | package: release_tarball}
+    %{config | package: tarball}
   end
 
   defp parse_args(argv) do
